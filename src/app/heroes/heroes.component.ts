@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 // import {Hero} from '../hero';
 import {HEROES} from '../HEROES';
 import {Hero} from '../hero';
+import {HeroService} from '../hero.service';
 
 @Component({
   selector: 'app-heroes',
@@ -16,20 +17,28 @@ export class HeroesComponent implements OnInit {
   };*/
 
   // hero = new Hero();
-  heroes = HEROES;
+  heroes: Hero[];
   selectedHero: Hero;
 
-  constructor() {
+  constructor( private heroService: HeroService) {
    /* this.hero.id = 1;
     this.hero.name = 'WinStorm';*/
   }
 
   ngOnInit() {
+    // 서비스 호출
+    // 잘못된 방법
 
+    // const heroService = new HeroService();
+    // this.heroes = heroService.getHeroes();
+
+    this.heroService.getHeroes()
+      .subscribe(data => {
+        this.heroes = data;
+      });
   }
 
   onSelect(hero: Hero) {
-      console.log(hero);
       this.selectedHero = hero;
   }
 }
